@@ -2,6 +2,9 @@ package com.example.shuliao_bombrate;
 
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import org.junit.Test;
 
 import java.io.IOException;
@@ -21,15 +24,16 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
-    public static String baseUrl="http://admin.zmtjx.com:9527";
-    public static String listRobot=baseUrl+"/manage/group/listRobot";
+    public static String baseUrl = "http://admin.zmtjx.com:9527";
+    public static String listRobot = baseUrl + "/manage/group/listRobot";
+
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
 
     @Test
-    public void test2(){
+    public void test2() {
 //        RequestBody body = RequestBody.create(
 //                MediaType.parse("application/json"), oldParamsJson);
 
@@ -49,7 +53,7 @@ public class ExampleUnitTest {
         }
     }
 
-    public void test3(){
+    public void test3() {
         //        RequestBody body = RequestBody.create(
 //                MediaType.parse("application/json"), oldParamsJson);
 
@@ -63,6 +67,31 @@ public class ExampleUnitTest {
             response = call.execute();
             String responseText = response.body().string();
             System.out.println(responseText);
+            response.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test5() {
+        //        RequestBody body = RequestBody.create(
+//                MediaType.parse("application/json"), oldParamsJson);
+
+        Request request = new Request.Builder()
+                .url("http://localhost:8080/getGroupInfo")
+                .build();
+        OkHttpClient client = new OkHttpClient();
+        Call call = client.newCall(request);
+        Response response = null;
+        try {
+            response = call.execute();
+            String responseText = response.body().string();
+            System.out.println(responseText);
+            JSONObject jsonObject= JSON.parseObject(responseText);
+            if(jsonObject.getInteger("code")==200){
+
+            }
             response.close();
         } catch (IOException e) {
             e.printStackTrace();
